@@ -10,20 +10,22 @@ from functools import singledispatch
 class Singleton:
     """A simple Singleton class"""
 
-    instance = None
+    _instance = None
 
     @staticmethod
     def get_instance():
         """Static access method."""
-        return Singleton.instance
+        return Singleton._instance
 
     def __init__(self):
-        if Singleton.instance is None:
-            Singleton.instance = self
+        if Singleton._instance is None:
+            Singleton._instance = self
 
 
 # Example 2
 class SingletonMeta(type):
+    """A simple singleton class of a new type"""
+
     instances = {}
 
     def __call__(cls, *args, **kwargs):
@@ -33,62 +35,68 @@ class SingletonMeta(type):
 
 
 class MySingletonMeta(metaclass=SingletonMeta):
-    pass
+    """A simple class that derives from SingletonMeta"""
 
 
 # Example 3
 class SingletonNew:
-    instance = None
+    """A simple singleton class to use __new__ method to construct a new instance"""
+
+    _instance = None
 
     def __new__(cls):
-        if not cls.instance:
-            cls.instance = super().__new__(cls)
-        return cls.instance
+        if not cls._instance:
+            cls._instance = super().__new__(cls)
+        return cls._instance
 
 
 # Example 4
 def singleton_decorator(cls):
     """A singleton method to be used as a decorator"""
-    instances = {}
+    _instances = {}
 
     @functools.wraps(cls)
     def get_instance(*args, **kwargs):
-        if cls not in instances:
-            instances[cls] = cls(*args, **kwargs)
-        return instances[cls]
+        if cls not in _instances:
+            _instances[cls] = cls(*args, **kwargs)
+        return _instances[cls]
 
     return get_instance
 
 
 @singleton_decorator
 class SingletonDecorated:
-    pass
+    """A simple class that is decorated with singleton method"""
 
 
 # Example 5
 @singledispatch
 def singleton_dispatcher():
-    """A singleton function"""
+    """A singleton function decorated with singledispatch"""
 
 
 @singleton_dispatcher.register(object)
 class SingletonDispatcher:
-    instance = None
+    """A simple singleton dispatcher class"""
+
+    _instance = None
 
     def __new__(cls):
-        if not cls.instance:
-            cls.instance = super().__new__(cls)
-        return cls.instance
+        if not cls._instance:
+            cls._instance = super().__new__(cls)
+        return cls._instance
 
 
 # Example 6
 class SingletonThreadSafe:
-    instance = None
+    """A simple singleton thread safe class"""
+
+    _instance = None
     _lock = threading.Lock()
 
     def __new__(cls):
-        if not cls.instance:
+        if not cls._instance:
             with cls._lock:
-                if not cls.instance:
-                    cls.instance = super().__new__(cls)
-        return cls.instance
+                if not cls._instance:
+                    cls._instance = super().__new__(cls)
+        return cls._instance

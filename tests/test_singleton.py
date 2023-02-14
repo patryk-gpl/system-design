@@ -1,4 +1,4 @@
-""" Tests to check validity of Singleton design pattern with various implementation """
+""" Tests to check validity of Singleton design pattern with various implementations """
 from patterns.creational.singleton import (
     MySingletonMeta,
     Singleton,
