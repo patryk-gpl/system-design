@@ -19,6 +19,6 @@ lint: ## Run linter on project code
 	@poetry run pylint $(SRC_DIR)
 
 unit: ## Run unit tests2
-	@poetry run python -m pytest -s -v --log-level=INFO --cov=$(SRC_DIR)
+	@poetry run pytest -vs --log-level=INFO --cov=$(SRC_DIR) -p no:warnings
 
 test: format lint unit ## Run code formatter, linter and unit tests
